@@ -22,4 +22,6 @@ dependencies {
     compile 'com.sparkjava:spark-template-freemarker:2.5.5'
     // Para resolver el bug relacionado con las rutas multiples
     compile "org.slf4j:slf4j-simple:1.7.21"
+    // Base de Datos
+    compile 'com.h2database:h2:1.4.191'
 }

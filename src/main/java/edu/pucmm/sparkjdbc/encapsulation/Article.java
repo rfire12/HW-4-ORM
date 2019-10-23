@@ -1,5 +1,8 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Article {
     private long uid;
     private String title;
