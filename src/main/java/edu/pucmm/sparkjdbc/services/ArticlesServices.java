@@ -24,12 +24,15 @@ public class ArticlesServices {
         ArrayList<Article> articles = new ArrayList<>();
         Connection con = null;
         try {
-            String query = "select * from articles order by article_date";
+            String query = "select * from articles order by article_date desc";
             con = DataBaseServices.getInstance().getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Article article = getArticle(rs.getString("uid"));
+                if (article.getInformation().length() > 70) {
+                    article.setInformation(Utils.truncate(article.getInformation(), 70) + "...");
+                }
                 articles.add(article);
             }
         } catch (SQLException e) {
@@ -68,7 +71,6 @@ public class ArticlesServices {
                 article.setAuthor(author);
 
                 article.setTags(ArticlesTagsServices.getInstance().getArticleTags(rs.getString("uid")));
-                System.out.println("TAGS: " + article.getTags().size());
             }
         } catch (SQLException e) {
             e.printStackTrace();
