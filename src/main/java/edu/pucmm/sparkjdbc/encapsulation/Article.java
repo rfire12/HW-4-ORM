@@ -15,11 +15,12 @@ public class Article {
     public Article() {
     }
 
-    public Article(String title, String information, User author, Date date) {
+    public Article(String title, String information, User author, Date date, ArrayList<Tag> tags) {
         this.title = title;
         this.information = information;
         this.author = author;
         this.date = date;
+        this.tags = tags;
     }
 
     public String getUid() {

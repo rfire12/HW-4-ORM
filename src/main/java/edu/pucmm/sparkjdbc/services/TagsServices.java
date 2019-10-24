@@ -21,8 +21,8 @@ public class TagsServices {
         return instance;
     }
 
-    public List<Tag> getTags() {
-        List<Tag> tags = new ArrayList<>();
+    public ArrayList<Tag> getTags() {
+        ArrayList<Tag> tags = new ArrayList<>();
         Connection con = null;
         try {
             String query = "select * from tags";

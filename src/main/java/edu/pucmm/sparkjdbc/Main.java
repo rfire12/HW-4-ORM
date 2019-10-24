@@ -1,6 +1,7 @@
 package edu.pucmm.sparkjdbc;
 
 import edu.pucmm.sparkjdbc.encapsulation.Article;
+import edu.pucmm.sparkjdbc.encapsulation.Tag;
 import edu.pucmm.sparkjdbc.encapsulation.User;
 import edu.pucmm.sparkjdbc.services.ArticlesServices;
 import edu.pucmm.sparkjdbc.services.BootStrapServices;
@@ -10,6 +11,8 @@ import java.sql.SQLException;
 
 import static spark.Spark.staticFiles;
 
+import edu.pucmm.sparkjdbc.services.TagsServices;
+import edu.pucmm.sparkjdbc.utils.Utils;
 import spark.ModelAndView;
 import spark.template.freemarker.FreeMarkerEngine;
 
@@ -52,7 +55,16 @@ public class Main {
             Date todaysDate = new Date();
             java.sql.Date date = new java.sql.Date(todaysDate.getTime());
             User author = new User("autor01256", "Luis Garcia", "123456", "admin"); //This should be deleted when sessions get implemented
-            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), author, date);
+            String[] tags = request.queryParams("tags").split(",");
+
+            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
+            ArrayList<Tag> createdTags = TagsServices.getInstance().getTags(); // Get tags on the Database
+            for(Tag tag : tagList){
+                if(!Utils.isTagInArray(tag, createdTags)) //If the tag is not created, then insert it on the database
+                    TagsServices.getInstance().createTag(tag);
+            }
+
+            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), author, date, tagList);
             ArticlesServices.getInstance().createArticle(article);
             response.redirect("/");
             return "";
