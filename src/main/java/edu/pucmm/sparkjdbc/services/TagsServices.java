@@ -30,10 +30,7 @@ public class TagsServices {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                Tag tag = new Tag();
-                tag.setUid(rs.getString("uid"));
-                tag.setTag(rs.getString("tag"));
-
+                Tag tag = new Tag(rs.getString("uid"), rs.getString("tag"));
                 tags.add(tag);
             }
         } catch (SQLException e) {
@@ -48,7 +45,33 @@ public class TagsServices {
         return tags;
     }
 
-    public Tag getTag(long uid) {
+    public Tag getTag(String name) {
+        Tag tag = null;
+        Connection con = null;
+        try {
+            String query = "select * from tags where tag = ?";
+            con = DataBaseServices.getInstance().getConnection();
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                tag = new Tag(rs.getString("uid"), rs.getString("tag"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tag;
+    }
+
+    public Tag getTagByUid(String uid) {
         Tag tag = null;
         Connection con = null;
         try {
@@ -56,12 +79,10 @@ public class TagsServices {
             con = DataBaseServices.getInstance().getConnection();
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setLong(1, uid);
+            preparedStatement.setString(1, uid);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                tag = new Tag();
-                tag.setUid(rs.getString("uid"));
-                tag.setTag(rs.getString("tag"));
+                tag = new Tag(rs.getString("uid"), rs.getString("tag"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

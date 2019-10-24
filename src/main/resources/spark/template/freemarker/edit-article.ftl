@@ -10,9 +10,9 @@
 
     <title>BlogSpark - The biggest Java Spark community in the world!</title>
 
-    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
     <script src="/js/bootstrap.js"></script>
-    <link href="/css/blog-home.css" rel="stylesheet" />
+    <link href="/css/blog-home.css" rel="stylesheet"/>
 
 </head>
 
@@ -22,7 +22,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#">BlogSpark</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -54,24 +55,27 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-            <h1 class="my-4">New
+            <h1 class="my-4">Edit
                 <small>Article</small>
             </h1>
 
             <form action="/new-article" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your article title">
+                    <input type="text" class="form-control" id="title" name="title"
+                           placeholder="Enter your article title" value="${article.title}">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Article</label>
-                    <textarea class="form-control" id="article-body" name="article-body" rows="7"></textarea>
+                    <textarea class="form-control" id="article-body" name="article-body"
+                              rows="7">${article.information}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags" placeholder="e.g: Javascript, Python, Ruby">
+                    <input type="text" class="form-control" id="tags" name="tags"
+                           placeholder="e.g: Javascript, Python, Ruby">
                 </div>
-                <button type="submit" class="btn btn-primary">Create Article</button>
+                <button type="submit" class="btn btn-primary">Update Article</button>
             </form>
 
 

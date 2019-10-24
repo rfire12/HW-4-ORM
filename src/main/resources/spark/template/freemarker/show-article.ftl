@@ -8,11 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>BlogSpark - The biggest Java Spark community in the world!</title>
+    <title>Blog Home - Start Bootstrap Template</title>
 
-    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
     <script src="/js/bootstrap.js"></script>
-    <link href="/css/blog-home.css" rel="stylesheet" />
+    <link href="/css/blog-home.css" rel="stylesheet"/>
 
 </head>
 
@@ -21,8 +21,9 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">BlogSpark</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -48,38 +49,20 @@
 
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
-
-        <!-- Blog Entries Column -->
+        <div class="col-md-2"></div>
         <div class="col-md-8">
-
-            <h1 class="my-4">New
-                <small>Article</small>
-            </h1>
-
-            <form action="/new-article" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your article title">
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Article</label>
-                    <textarea class="form-control" id="article-body" name="article-body" rows="7"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags" placeholder="e.g: Javascript, Python, Ruby">
-                </div>
-                <button type="submit" class="btn btn-primary">Create Article</button>
-            </form>
-
-
+            <br/>
+            <h2>${article.title}</h2>
+            <br/>
+            <h4>${article.information}</h4>
+            <br/>
+            <h6>Published by: (AUTHOR) on ${article.date}</h6>
+            <br/>
+            <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit</a>
         </div>
-
+        <div class="col-md-2"></div>
     </div>
-    <!-- /.row -->
-
 </div>
 <!-- /.container -->
 
@@ -92,6 +75,8 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

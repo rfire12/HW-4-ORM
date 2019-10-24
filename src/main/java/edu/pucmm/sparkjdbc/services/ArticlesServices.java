@@ -3,6 +3,7 @@ package edu.pucmm.sparkjdbc.services;
 import edu.pucmm.sparkjdbc.encapsulation.Article;
 import edu.pucmm.sparkjdbc.encapsulation.Tag;
 import edu.pucmm.sparkjdbc.encapsulation.User;
+import edu.pucmm.sparkjdbc.utils.Utils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class ArticlesServices {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                Article article = getArticle(rs.getLong("uid"));
+                Article article = getArticle(rs.getString("uid"));
                 articles.add(article);
             }
         } catch (SQLException e) {
@@ -44,7 +45,7 @@ public class ArticlesServices {
         return articles;
     }
 
-    public Article getArticle(long uid) {
+    public Article getArticle(String uid) {
         Article article = null;
         Connection con = null;
         try {
@@ -52,7 +53,7 @@ public class ArticlesServices {
             con = DataBaseServices.getInstance().getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(query);
 
-            preparedStatement.setLong(1, uid);
+            preparedStatement.setString(1, uid);
 
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -63,8 +64,11 @@ public class ArticlesServices {
                 article.setInformation(rs.getString("body"));
                 article.setDate(rs.getDate("article_date"));
 
-                User author = UsersServices.getInstance().getUser(rs.getLong("author_id"));
+                User author = UsersServices.getInstance().getUser(rs.getString("author_id"));
                 article.setAuthor(author);
+
+                article.setTags(ArticlesTagsServices.getInstance().getArticleTags(rs.getString("uid")));
+                System.out.println("TAGS: " + article.getTags().size());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,8 +99,14 @@ public class ArticlesServices {
             int row = preparedStatement.executeUpdate();
             ok = row > 0;
 
+            ArrayList<Tag> createdTags = TagsServices.getInstance().getTags(); // Get tags from the Database
             for (Tag tag : article.getTags()) {
-                ArticlesTagsServices.getInstance().createArticleTag(uniqueID, tag.getUid());
+                if (!Utils.isTagInArray(tag, createdTags)) //If the tag is not created, then insert it on the database
+                    TagsServices.getInstance().createTag(tag);
+            }
+
+            for (Tag tag : article.getTags()) {
+                ArticlesTagsServices.getInstance().createArticleTag(uniqueID, TagsServices.getInstance().getTag(tag.getTag()).getUid());
             }
 
         } catch (SQLException e) {
