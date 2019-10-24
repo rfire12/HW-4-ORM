@@ -12,14 +12,35 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <br/>
-            <h2>${article.title}</h2>
-            <br/>
-            <p>${article.information}</p>
-            <br/>
-            <p>Published by: (AUTHOR) on ${article.date}</p>
-            <br/>
-            <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit</a>
+            <div class="card">
+                <div class="card-body">
+                    <br/>
+                    <h2>${article.title}</h2>
+                    <br/>
+                    <p>${article.information}</p>
+                    <br/>
+                    <p>Published by: (AUTHOR) on ${article.date}</p>
+                    <br/>
+                    <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit</a>
+                    <br/>
+                    <h3>Tags:</h3>
+                    <ul>
+                        <#list tags as tag>
+                            <li>
+                                ${tag.tag}
+                            </li>
+                        </#list>
+                    </ul>
+                    <h3>Comments:</h3>
+                    <ul>
+                        <#list comments as comment>
+                            <li>
+                                ${comment.comment}
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="col-md-2"></div>
     </div>

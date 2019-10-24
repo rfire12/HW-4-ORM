@@ -1,0 +1,58 @@
+package edu.pucmm.sparkjdbc.controllers;
+
+import edu.pucmm.sparkjdbc.encapsulation.Article;
+import edu.pucmm.sparkjdbc.encapsulation.Tag;
+import edu.pucmm.sparkjdbc.encapsulation.User;
+import edu.pucmm.sparkjdbc.services.ArticlesServices;
+import edu.pucmm.sparkjdbc.services.TagsServices;
+import edu.pucmm.sparkjdbc.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static spark.Spark.*;
+
+public class ArticlesController {
+    public static void getRoutes() {
+        get("/", (request, response) -> {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("articles", ArticlesServices.getInstance().getArticles());
+            obj.put("tags", TagsServices.getInstance().getTags());
+            return TemplatesController.renderFreemarker(obj, "index.ftl");
+        });
+
+        get("/new-article", (request, response) -> {
+            return TemplatesController.renderFreemarker(null, "new-article.ftl");
+        });
+
+        post("/new-article", (request, response) -> {
+            Date todaysDate = new Date();
+            java.sql.Timestamp date = new java.sql.Timestamp(todaysDate.getTime());
+            User author = new User("autor01256", "Luis Garcia", "123456", "admin"); //This should be deleted when sessions get implemented
+            String[] tags = request.queryParams("tags").split(",");
+
+            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
+            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), author, date, tagList);
+            ArticlesServices.getInstance().createArticle(article);
+            response.redirect("/");
+            return "";
+        });
+
+        get("/articles/:id", (request, response) -> {
+            Map<String, Object> obj = new HashMap<>();
+            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
+            obj.put("article", article);
+            obj.put("comments", article.getComments());
+            obj.put("tags", article.getTags());
+            return TemplatesController.renderFreemarker(obj, "show-article.ftl");
+        });
+
+        get("/articles/:id/edit", (request, response) -> {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("article", ArticlesServices.getInstance().getArticle(request.params("id")));
+            return TemplatesController.renderFreemarker(obj, "edit-article.ftl");
+        });
+    }
+}

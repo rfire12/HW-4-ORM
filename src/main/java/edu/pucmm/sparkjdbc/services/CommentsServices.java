@@ -4,12 +4,10 @@ import edu.pucmm.sparkjdbc.encapsulation.Comment;
 import edu.pucmm.sparkjdbc.encapsulation.User;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CommentsServices {
 
@@ -23,8 +21,35 @@ public class CommentsServices {
         return instance;
     }
 
-    public List<Comment> listComments(String articleId) {
-        List<Comment> comments = new ArrayList<>();
+    public boolean createComment(Comment comment) {
+        boolean ok = false;
+        Connection con = null;
+        try {
+            String query = "insert into comments(uid,body,author_id,article_id) values (?,?,?,?)";
+            con = DataBaseServices.getInstance().getConnection();
+            String uniqueID = UUID.randomUUID().toString();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, uniqueID);
+            preparedStatement.setString(2, comment.getComment());
+            preparedStatement.setString(3, comment.getAuthor().getUid());
+            preparedStatement.setString(4, comment.getArticle().getUid());
+
+            int row = preparedStatement.executeUpdate();
+            ok = row > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ok;
+    }
+
+    public ArrayList<Comment> getComments(String articleId) {
+        ArrayList<Comment> comments = new ArrayList<>();
 
         Connection con = null;
 
@@ -44,6 +69,7 @@ public class CommentsServices {
                 String authorId = rs.getString("author_id");
                 User author = UsersServices.getInstance().getUser(authorId);
                 comment.setAuthor(author);
+                comment.setArticle(ArticlesServices.getInstance().getArticle(articleId));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -70,7 +70,9 @@ public class ArticlesServices {
                 User author = UsersServices.getInstance().getUser(rs.getString("author_id"));
                 article.setAuthor(author);
 
-                article.setTags(ArticlesTagsServices.getInstance().getArticleTags(rs.getString("uid")));
+                article.setComments(CommentsServices.getInstance().getComments(article.getUid()));
+
+                article.setTags(ArticlesTagsServices.getInstance().getArticleTags(article.getUid()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
