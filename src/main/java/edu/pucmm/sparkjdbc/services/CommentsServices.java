@@ -21,7 +21,7 @@ public class CommentsServices {
         return instance;
     }
 
-    public boolean createComment(Comment comment) {
+    public boolean createComment(String uidArticle, String uidAuthor, Comment comment) {
         boolean ok = false;
         Connection con = null;
         try {
@@ -31,8 +31,8 @@ public class CommentsServices {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, uniqueID);
             preparedStatement.setString(2, comment.getComment());
-            preparedStatement.setString(3, comment.getAuthor().getUid());
-            preparedStatement.setString(4, comment.getArticle().getUid());
+            preparedStatement.setString(3, uidAuthor);
+            preparedStatement.setString(4, uidArticle);
 
             int row = preparedStatement.executeUpdate();
             ok = row > 0;

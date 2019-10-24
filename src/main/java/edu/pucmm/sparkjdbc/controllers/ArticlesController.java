@@ -7,10 +7,7 @@ import edu.pucmm.sparkjdbc.services.ArticlesServices;
 import edu.pucmm.sparkjdbc.services.TagsServices;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -51,7 +48,14 @@ public class ArticlesController {
 
         get("/articles/:id/edit", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            obj.put("article", ArticlesServices.getInstance().getArticle(request.params("id")));
+            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
+            ArrayList<Tag> tags = article.getTags();
+            String tagsTxt = "";
+            for (Tag tag : tags) {
+                tagsTxt += tag.getTag() + ",";
+            }
+            obj.put("article", article);
+            obj.put("tags", tagsTxt);
             return TemplatesController.renderFreemarker(obj, "edit-article.ftl");
         });
     }

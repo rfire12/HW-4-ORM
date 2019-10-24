@@ -31,6 +31,10 @@
                             </li>
                         </#list>
                     </ul>
+                    <form action="/comments/new/${article.uid}">
+                        <textarea placeholder="Comment here" class="form-control"></textarea>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
                     <h3>Comments:</h3>
                     <ul>
                         <#list comments as comment>

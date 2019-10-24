@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tags</label>
                     <input type="text" class="form-control" id="tags" name="tags"
-                           placeholder="e.g: Javascript, Python, Ruby">
+                           placeholder="e.g: Javascript, Python, Ruby" value="${tags}">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Article</button>
             </form>

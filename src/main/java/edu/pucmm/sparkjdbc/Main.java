@@ -1,6 +1,7 @@
 package edu.pucmm.sparkjdbc;
 
 import edu.pucmm.sparkjdbc.controllers.ArticlesController;
+import edu.pucmm.sparkjdbc.controllers.CommentsController;
 import edu.pucmm.sparkjdbc.services.*;
 
 import java.sql.SQLException;
@@ -24,5 +25,8 @@ public class Main {
 
         // Articles Routes
         ArticlesController.getRoutes();
+
+        // Comments Routes
+        CommentsController.getRoutes();
     }
 }
