@@ -1,5 +1,7 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,14 +10,14 @@ public class Article {
     private String title;
     private String information;
     private User author;
-    private Date date;
+    private Timestamp date;
     private ArrayList<Comment> comments;
     private ArrayList<Tag> tags;
 
     public Article() {
     }
 
-    public Article(String title, String information, User author, Date date, ArrayList<Tag> tags) {
+    public Article(String title, String information, User author, Timestamp date, ArrayList<Tag> tags) {
         this.title = title;
         this.information = information;
         this.author = author;
@@ -55,11 +57,11 @@ public class Article {
         this.author = author;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

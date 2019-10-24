@@ -37,9 +37,9 @@ public class BootStrapServices {
                 "(" +
                 "UID VARCHAR(100) PRIMARY KEY NOT NULL," +
                 "TITLE VARCHAR(100) NOT NULL," +
-                "BODY VARCHAR(500) NOT NULL," +
+                "BODY TEXT NOT NULL," +
                 "AUTHOR_ID VARCHAR(100)," +
-                "ARTICLE_DATE DATE, " +
+                "ARTICLE_DATE TIMESTAMP " +
                 ");";
         String commentsSQL = "CREATE TABLE IF NOT EXISTS COMMENTS" +
                 "(" +
@@ -67,7 +67,7 @@ public class BootStrapServices {
         statement.execute(articlesTagsSQL);
         statement.close();
 
-        UsersServices.getInstance().createUser(new User("admin", "admin", "123456", "admin"));
+//        UsersServices.getInstance().createUser(new User("admin", "admin", "123456", "admin"));
 
         con.close();
         System.out.println("Tablas creadas con éxito!!");

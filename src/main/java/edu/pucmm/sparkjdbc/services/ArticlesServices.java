@@ -24,7 +24,7 @@ public class ArticlesServices {
         ArrayList<Article> articles = new ArrayList<>();
         Connection con = null;
         try {
-            String query = "select * from articles";
+            String query = "select * from articles order by article_date";
             con = DataBaseServices.getInstance().getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
@@ -62,7 +62,7 @@ public class ArticlesServices {
                 article.setUid(rs.getString("uid"));
                 article.setTitle(rs.getString("title"));
                 article.setInformation(rs.getString("body"));
-                article.setDate(rs.getDate("article_date"));
+                article.setDate(rs.getTimestamp("article_date"));
 
                 User author = UsersServices.getInstance().getUser(rs.getString("author_id"));
                 article.setAuthor(author);
@@ -94,7 +94,7 @@ public class ArticlesServices {
             preparedStatement.setString(2, article.getTitle());
             preparedStatement.setString(3, article.getInformation());
             preparedStatement.setString(4, article.getAuthor().getUid());
-            preparedStatement.setDate(5, (Date) article.getDate());
+            preparedStatement.setTimestamp(5, article.getDate());
 
             int row = preparedStatement.executeUpdate();
             ok = row > 0;

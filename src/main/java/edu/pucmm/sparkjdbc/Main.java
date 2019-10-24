@@ -52,7 +52,7 @@ public class Main {
 
         post("/new-article", (request, response) -> {
             Date todaysDate = new Date();
-            java.sql.Date date = new java.sql.Date(todaysDate.getTime());
+            java.sql.Timestamp date = new java.sql.Timestamp(todaysDate.getTime());
             User author = new User("autor01256", "Luis Garcia", "123456", "admin"); //This should be deleted when sessions get implemented
             String[] tags = request.queryParams("tags").split(",");
 
