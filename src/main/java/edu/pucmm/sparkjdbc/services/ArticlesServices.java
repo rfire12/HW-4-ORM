@@ -124,4 +124,31 @@ public class ArticlesServices {
         }
         return ok;
     }
+
+    public boolean updateArticle(Article article) {
+        boolean ok = false;
+        Connection con = null;
+        try {
+            String query = "update articles set title=?, body=? where uid =?";
+            con = DataBaseServices.getInstance().getConnection();
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+
+            preparedStatement.setString(1, article.getTitle());
+            preparedStatement.setString(2, article.getInformation());
+            preparedStatement.setString(3, article.getUid());
+
+            int row = preparedStatement.executeUpdate();
+            ok = row > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ok;
+    }
 }

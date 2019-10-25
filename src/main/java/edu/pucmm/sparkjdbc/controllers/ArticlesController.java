@@ -47,6 +47,10 @@ public class ArticlesController {
         });
 
         post("/articles/:id", (request, response) -> {
+            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
+            article.setTitle(request.queryParams("title"));
+            article.setInformation(request.queryParams("article-body"));
+            ArticlesServices.getInstance().updateArticle(article);
             response.redirect("/articles/" + request.params("id"));
             return "";
         });
