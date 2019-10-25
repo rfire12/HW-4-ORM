@@ -19,7 +19,7 @@
                 <small>Article</small>
             </h1>
 
-            <form action="/new-article" method="POST">
+            <form action="/articles/${article.uid}" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Title</label>
                     <input type="text" class="form-control" id="title" name="title"

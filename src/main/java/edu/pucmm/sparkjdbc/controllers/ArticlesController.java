@@ -46,6 +46,11 @@ public class ArticlesController {
             return TemplatesController.renderFreemarker(obj, "show-article.ftl");
         });
 
+        post("/articles/:id", (request, response) -> {
+            response.redirect("/articles/" + request.params("id"));
+            return "";
+        });
+
         get("/articles/:id/edit", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
@@ -53,6 +58,9 @@ public class ArticlesController {
             String tagsTxt = "";
             for (Tag tag : tags) {
                 tagsTxt += tag.getTag() + ",";
+            }
+            if (tagsTxt.endsWith(",")) {
+                tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }
             obj.put("article", article);
             obj.put("tags", tagsTxt);
