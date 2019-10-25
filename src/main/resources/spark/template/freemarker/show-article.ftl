@@ -52,18 +52,20 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <!-- Search Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Settings</h5>
-                <div class="card-body">
-                    <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit this article</a>
-                    <form action="/articles/${article.uid}/delete" method="post">
-                        <button type="submit" class="btn btn-danger">Delete this article</button>
-                    </form>
+        <#if user??>
+            <div class="col-md-3">
+                <!-- Search Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Settings</h5>
+                    <div class="card-body">
+                        <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit this article</a>
+                        <form action="/articles/${article.uid}/delete" method="post">
+                            <button type="submit" class="btn btn-danger">Delete this article</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </#if>
 
 
     </div>

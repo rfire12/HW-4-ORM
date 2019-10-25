@@ -14,13 +14,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/new-article">Create Article</a>
+                    <#if user??>
+                        <a class="nav-link" href="/new-article">Create Article</a>
+                    </#if>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <#if user??>
+                        <a class="nav-link" href="/logout">Log out</a>
+                    <#else>
+                        <a class="nav-link" href="/login">Log In</a>
+                    </#if>
                 </li>
             </ul>
         </div>

@@ -9,10 +9,6 @@
 
 <!-- Page Content -->
 <div class="container">
-
-    <div class="row">
-
-        <!-- Blog Entries Column -->
         <div class="col-md-8">
 
             <h1 class="my-4">Edit
@@ -37,13 +33,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Update Article</button>
             </form>
-
-
         </div>
-
-    </div>
-    <!-- /.row -->
-
 </div>
 <!-- /.container -->
 

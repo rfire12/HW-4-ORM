@@ -46,9 +46,7 @@ public class BootStrapServices {
                 "UID VARCHAR(100) PRIMARY KEY NOT NULL," +
                 "BODY VARCHAR(200) NOT NULL," +
                 "AUTHOR_ID VARCHAR(100)," +
-                "ARTICLE_ID VARCHAR(100)," +
-                "FOREIGN KEY(AUTHOR_ID) REFERENCES USERS(UID)," +
-                "FOREIGN KEY(ARTICLE_ID) REFERENCES ARTICLES(UID)" +
+                "ARTICLE_ID VARCHAR(100)" +
                 ");";
         String articlesTagsSQL = "CREATE TABLE IF NOT EXISTS ARTICLESTAGS" +
                 "(" +

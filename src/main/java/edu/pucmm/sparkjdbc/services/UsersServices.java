@@ -82,6 +82,8 @@ public class UsersServices {
         return user;
     }
 
+
+
     public boolean createUser(User user) {
         boolean ok = false;
 
@@ -112,5 +114,45 @@ public class UsersServices {
             }
         }
         return ok;
+    }
+
+    public User validateCredentials(String username, String password){
+        User user = null;
+
+        Connection con = null;
+
+        try {
+            String query = "select *from users where username = ? and password = ?";
+            con = DataBaseServices.getInstance().getConnection();
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            
+
+            while (rs.next()) {
+                user = new User();
+                user.setUid(rs.getString("uid"));
+                user.setUsername(rs.getString("username"));
+                user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
+            }
+
+
+
+        } catch (SQLException ex) {
+
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+
+            }
+        }
+        return user;
     }
 }
