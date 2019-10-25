@@ -20,7 +20,7 @@
                     <br/>
                     <p>${article.information}</p>
                     <br/>
-                    <p>Published by: (AUTHOR) on ${article.date}</p>
+                    <p>Published by: ${article.author.username} on ${article.date}</p>
 
                     <br/><br/>
                     <h3>Tags:</h3>
