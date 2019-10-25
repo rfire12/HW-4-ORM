@@ -28,11 +28,13 @@
                         <a href="#" class="badge badge-primary">${tag.tag}</a>
                     </#list>
                     <br/><br/><br/>
-                    <form action="/comments/new/${article.uid}" method="post">
-                        <textarea placeholder="Comment here" class="form-control" name="comment"></textarea>
-                        <br/>
-                        <button type="submit" class="btn btn-primary">Post</button>
-                    </form>
+                    <#if user??>
+                        <form action="/comments/new/${article.uid}" method="post">
+                            <textarea placeholder="Comment here" class="form-control" name="comment"></textarea>
+                            <br/>
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </form>
+                    </#if>
                     <br/>
                     <h3>Comments:</h3>
                     <hr/>
@@ -43,16 +45,18 @@
                         <p>
                             ${comment.comment}
                         </p>
-                        <form action="/articles/${article.uid}/comments/${comment.uid}" method="post">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <#if user?? && (user.role == "admin" || user.uid == comment.author.uid)>
+                            <form action="/articles/${article.uid}/comments/${comment.uid}" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </#if>
                         <hr/>
                     </#list>
                 </div>
             </div>
         </div>
 
-        <#if user??>
+        <#if user?? && (user.role == "admin" || user.uid = article.author.uid)>
             <div class="col-md-3">
                 <!-- Search Widget -->
                 <div class="card my-4">
