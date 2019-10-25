@@ -63,8 +63,13 @@ public class LoginController {
 
         post("/create-user", (request, response) -> {
             User user = new User(request.queryParams("username"),request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
-            UsersServices.getInstance().createUser(user);
-            response.redirect("/");
+            Boolean result = UsersServices.getInstance().createUser(user);
+            if(result){
+                response.redirect("/");
+            }else{
+                response.redirect("/create-user");
+            }
+
             return "";
         });
 
