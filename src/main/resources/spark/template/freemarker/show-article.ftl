@@ -38,7 +38,7 @@
                     <hr/>
                     <#list comments as comment>
                         <p>
-                            AUTHOR commented:
+                            ${comment.author.username} commented:
                         </p>
                         <p>
                             ${comment.comment}
