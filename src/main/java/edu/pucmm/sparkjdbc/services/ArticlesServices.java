@@ -71,7 +71,7 @@ public class ArticlesServices {
                 User author = UsersServices.getInstance().getUser(rs.getString("author_id"));
                 article.setAuthor(author);
 
-                //article.setComments(CommentsServices.getInstance().getComments(article.getUid()));
+                article.setComments(new ArrayList<>());
 
                 article.setTags(ArticlesTagsServices.getInstance().getArticleTags(article.getUid()));
             }
