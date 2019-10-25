@@ -19,11 +19,15 @@
                     </#if>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
+                    <#if user??>
+                        <#if user.role == "admin">
+                            <a class="nav-link" href="/create-user">Add new user</a>
+                        </#if>
+                    </#if>
                 </li>
                 <li class="nav-item">
                     <#if user??>
-                        <a class="nav-link" href="/logout">Log out</a>
+                        <a class="nav-link" href="/logout">Log out (${user.username})</a>
                     <#else>
                         <a class="nav-link" href="/login">Log In</a>
                     </#if>

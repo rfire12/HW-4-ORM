@@ -4,6 +4,9 @@ import edu.pucmm.sparkjdbc.encapsulation.User;
 import edu.pucmm.sparkjdbc.services.UsersServices;
 import spark.Session;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static spark.Spark.*;
 
 public class LoginController {
@@ -14,6 +17,15 @@ public class LoginController {
             if(user != null){
                 response.redirect("/");
             }
+        });
+
+        before("/create-user", (request, response) -> {
+            User user = request.session().attribute("user");
+
+            if(user == null || !user.getRole().equalsIgnoreCase("admin")){
+                response.redirect("/");
+            }
+
         });
 
         get("/login", (request, response) -> {
@@ -38,16 +50,31 @@ public class LoginController {
                 response.redirect("/");
 
             }else{
-                response.redirect("/login", 401);
+                response.redirect("/login");
             }
+            return "";
+        });
+
+        get("/create-user", (request, response) -> {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("user", request.session().attribute("user"));
+            return TemplatesController.renderFreemarker(obj, "new-user.ftl");
+        });
+
+        post("/create-user", (request, response) -> {
+            User user = new User(request.queryParams("username"),request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
+            UsersServices.getInstance().createUser(user);
+            response.redirect("/");
             return "";
         });
 
         get("/logout", (request, response) -> {
             request.session().removeAttribute("user");
             response.removeCookie("USER");
-            response.redirect("/");
+            response.redirect("/login");
             return "";
         });
+
+
     }
 }
