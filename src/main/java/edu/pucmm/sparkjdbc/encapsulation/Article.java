@@ -1,17 +1,24 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Article {
+    @Id
     private String uid;
     private String title;
     private String information;
     private User author;
     private Timestamp date;
+    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
     private ArrayList<Comment> comments;
+    @ManyToMany()
     private ArrayList<Tag> tags;
 
     public Article() {

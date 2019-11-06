@@ -1,6 +1,10 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
-public class User {
+import javax.persistence.Id;
+import java.io.Serializable;
+
+public class User implements Serializable {
+    @Id
     private String uid;
     private String username;
     private String name;
