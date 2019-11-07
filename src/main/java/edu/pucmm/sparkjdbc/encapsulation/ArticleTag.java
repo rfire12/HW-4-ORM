@@ -1,7 +1,12 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
-public class ArticleTag {
+import javax.persistence.OneToOne;
+import java.io.Serializable;
+
+public class ArticleTag implements Serializable {
+    @OneToOne
     private Article article;
+    @OneToOne
     private Tag tag;
 
     public ArticleTag() {

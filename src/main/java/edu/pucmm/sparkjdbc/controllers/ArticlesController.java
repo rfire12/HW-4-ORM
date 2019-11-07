@@ -7,7 +7,6 @@ import edu.pucmm.sparkjdbc.encapsulation.User;
 import edu.pucmm.sparkjdbc.services.ArticlesServices;
 import edu.pucmm.sparkjdbc.services.CommentsServices;
 import edu.pucmm.sparkjdbc.services.TagsServices;
-import edu.pucmm.sparkjdbc.services.UsersServices;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
 import java.util.*;
@@ -19,14 +18,14 @@ public class ArticlesController {
 
         before("/new-article", (request, response) -> {
             User user = request.session().attribute("user");
-            if(user == null){
+            if (user == null) {
                 response.redirect("/");
             }
         });
 
         before("/articles/:id/edit", (request, response) -> {
-            User user = request.session().attribute("user");   
-            if(user == null){
+            User user = request.session().attribute("user");
+            if (user == null) {
                 response.redirect("/");
             }
         });
@@ -34,7 +33,7 @@ public class ArticlesController {
 
         get("/", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            obj.put("articles", ArticlesServices.getInstance().getArticles());
+            obj.put("articles", ArticlesServices.getInstance().findAll());
             obj.put("tags", TagsServices.getInstance().getTags());
             obj.put("user", request.session().attribute("user"));
             return TemplatesController.renderFreemarker(obj, "index.ftl");
@@ -53,16 +52,16 @@ public class ArticlesController {
             User user = request.session().attribute("user");
             String[] tags = request.queryParams("tags").split(",");
 
-            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
-            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), user, date, tagList);
-            ArticlesServices.getInstance().createArticle(article);
+//            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
+//            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), user, date, tagList);
+//            ArticlesServices.getInstance().create(article);
             response.redirect("/");
             return "";
         });
 
         get("/articles/:id", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
+            Article article = ArticlesServices.getInstance().find(request.params("id"));
             ArrayList<Comment> comments = CommentsServices.getInstance().getComments(request.params("id"));
             obj.put("article", article);
             obj.put("comments", comments);
@@ -72,27 +71,27 @@ public class ArticlesController {
         });
 
         post("/articles/:id", (request, response) -> {
-            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
+            Article article = ArticlesServices.getInstance().find(request.params("id"));
             article.setTitle(request.queryParams("title"));
             article.setInformation(request.queryParams("article-body"));
 
             String[] tags = request.queryParams("tags").split(",");
             ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
-            article.setTags(tagList);
+//            article.setTags(tagList);
 
-            ArticlesServices.getInstance().updateArticle(article);
+            ArticlesServices.getInstance().update(article);
             response.redirect("/articles/" + request.params("id"));
             return "";
         });
 
         get("/articles/:id/edit", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
-            Article article = ArticlesServices.getInstance().getArticle(request.params("id"));
-            ArrayList<Tag> tags = article.getTags();
+            Article article = ArticlesServices.getInstance().find(request.params("id"));
+//            ArrayList<Tag> tags = article.getTags();
             String tagsTxt = "";
-            for (Tag tag : tags) {
-                tagsTxt += tag.getTag() + ",";
-            }
+//            for (Tag tag : tags) {
+//                tagsTxt += tag.getTag() + ",";
+//            }
             if (tagsTxt.endsWith(",")) {
                 tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }
@@ -105,13 +104,13 @@ public class ArticlesController {
         before("/articles/:id/delete", (request, response) -> {
             User user = request.session().attribute("user");
             System.out.println(user);
-            if(user == null){
+            if (user == null) {
                 response.redirect("/");
             }
         });
 
         post("/articles/:id/delete", (request, response) -> {
-            ArticlesServices.getInstance().deleteArticle(request.params("id"));
+            ArticlesServices.getInstance().delete(request.params("id"));
             System.out.println("ds");
             response.redirect("/");
             return "";

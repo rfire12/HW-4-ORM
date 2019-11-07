@@ -4,7 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaQuery;
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class DatabaseManagement<T> {
     private static EntityManagerFactory emf;
@@ -39,13 +41,14 @@ public class DatabaseManagement<T> {
         return null;
     }
 
-    public void create(T entity) {
+    public boolean create(T entity) {
+        boolean ok = false;
         EntityManager em = getEntityManager();
 
         try {
             if (em.find(entityClass, getFieldValue(entity)) != null) {
                 System.out.println("Entity already exists");
-                return;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,9 +59,65 @@ public class DatabaseManagement<T> {
         try {
             em.persist(entity);
             em.getTransaction().commit();
+            ok = true;
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return ok;
+    }
+
+    public void update(T entity) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        try {
+            em.merge(entity);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void delete(Object idEntity) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        try {
+            T entity = em.find(entityClass, idEntity);
+            em.remove(entity);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public T find(Object id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(entityClass, id);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<T> findAll() {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(entityClass);
+            criteriaQuery.select(criteriaQuery.from(entityClass));
+            return em.createQuery(criteriaQuery).getResultList();
+        } catch (Exception e) {
+            throw e;
         } finally {
             em.close();
         }

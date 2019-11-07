@@ -67,7 +67,7 @@ public class CommentsServices {
                 comment.setUid(rs.getString("uid"));
                 comment.setComment(rs.getString("body"));
                 String authorId = rs.getString("author_id");
-                User author = UsersServices.getInstance().getUser(authorId);
+                User author = UsersServices.getInstance().find(authorId);
                 comment.setAuthor(author);
                 comments.add(comment);
             }

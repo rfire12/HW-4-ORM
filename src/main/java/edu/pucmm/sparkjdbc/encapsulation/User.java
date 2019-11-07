@@ -1,8 +1,10 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
 public class User implements Serializable {
     @Id
     private String uid;
@@ -15,7 +17,8 @@ public class User implements Serializable {
 
     }
 
-    public User(String username, String name, String password, String role) {
+    public User(String uid, String username, String name, String password, String role) {
+        this.uid = uid;
         this.username = username;
         this.name = name;
         this.password = password;

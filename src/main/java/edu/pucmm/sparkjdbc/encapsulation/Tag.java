@@ -1,6 +1,12 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
-public class Tag {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+@Entity
+public class Tag implements Serializable {
+    @Id
     private String uid;
     private String tag;
 

@@ -6,15 +6,16 @@ import spark.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static spark.Spark.*;
 
 public class LoginController {
-    public static void getRoutes(){
+    public static void getRoutes() {
 
         before("/login", (request, response) -> {
             User user = request.session().attribute("user");
-            if(user != null){
+            if (user != null) {
                 response.redirect("/");
             }
         });
@@ -22,7 +23,7 @@ public class LoginController {
         before("/create-user", (request, response) -> {
             User user = request.session().attribute("user");
 
-            if(user == null || !user.getRole().equalsIgnoreCase("admin")){
+            if (user == null || !user.getRole().equalsIgnoreCase("admin")) {
                 response.redirect("/");
             }
 
@@ -36,20 +37,20 @@ public class LoginController {
             request.queryParams("username");
             User user = UsersServices.getInstance().validateCredentials(request.queryParams("username"), request.queryParams("password"));
             Boolean rememberMe = false;
-            if(request.queryParams("remember-me") != null) {
+            if (request.queryParams("remember-me") != null) {
                 rememberMe = true;
             }
-            
-            if(user != null){
+
+            if (user != null) {
                 Session session = request.session(true);
                 session.attribute("user", user);
-                if(rememberMe){
+                if (rememberMe) {
                     response.cookie("USER", user.getUid(), 604800);
                 }
 
                 response.redirect("/");
 
-            }else{
+            } else {
                 response.redirect("/login");
             }
             return "";
@@ -62,11 +63,11 @@ public class LoginController {
         });
 
         post("/create-user", (request, response) -> {
-            User user = new User(request.queryParams("username"),request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
-            Boolean result = UsersServices.getInstance().createUser(user);
-            if(result){
+            User user = new User(UUID.randomUUID().toString(), request.queryParams("username"), request.queryParams("name"), request.queryParams("password"), request.queryParams("role"));
+            Boolean result = UsersServices.getInstance().create(user);
+            if (result) {
                 response.redirect("/");
-            }else{
+            } else {
                 response.redirect("/create-user");
             }
 

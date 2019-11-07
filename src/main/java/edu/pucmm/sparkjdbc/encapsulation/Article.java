@@ -1,30 +1,29 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.sql.Time;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Set;
 
-public class Article {
+@Entity
+public class Article implements Serializable {
     @Id
     private String uid;
     private String title;
     private String information;
+    @OneToOne
     private User author;
     private Timestamp date;
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
-    private ArrayList<Comment> comments;
-    @ManyToMany()
-    private ArrayList<Tag> tags;
+    private Set<Comment> comments;
+    @ManyToMany
+    private Set<Tag> tags;
 
     public Article() {
     }
 
-    public Article(String title, String information, User author, Timestamp date, ArrayList<Tag> tags) {
+    public Article(String title, String information, User author, Timestamp date, Set<Tag> tags) {
         this.title = title;
         this.information = information;
         this.author = author;
@@ -72,19 +71,11 @@ public class Article {
         this.date = date;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public ArrayList<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 }

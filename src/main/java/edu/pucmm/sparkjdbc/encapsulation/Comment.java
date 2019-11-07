@@ -1,9 +1,19 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Comment {
+    @Id
     private String uid;
     private String comment;
+    @OneToOne
     private User author;
+    @ManyToOne
+    private Article article;
 
     public Comment() {
 
@@ -36,5 +46,13 @@ public class Comment {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

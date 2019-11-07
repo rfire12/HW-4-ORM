@@ -64,8 +64,8 @@ public class ArticlesTagsServices {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 articleTag = new ArticleTag();
-                articleTag.setArticle(ArticlesServices.getInstance().getArticle(rs.getString("id_article")));
-                articleTag.setTag(TagsServices.getInstance().getTag(rs.getString("name_tag")));
+//                articleTag.setArticle(ArticlesServices.getInstance().getArticle(rs.getString("id_article")));
+//                articleTag.setTag(TagsServices.getInstance().getTag(rs.getString("name_tag")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

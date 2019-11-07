@@ -23,16 +23,16 @@ public class Main {
         BootStrapServices.startDb();
 
         // Creating tables
-        BootStrapServices.createTables();
+        BootStrapServices.initDatabase();
 
         // Testing connection
         DataBaseServices.getInstance().testConnection();
 
         before((request, response) -> {
             User user = request.session().attribute("user");
-            if(request.cookie("USER") != null && user == null){ //If the user is not logged, try to get the cookie to set a session
+            if (request.cookie("USER") != null && user == null) { //If the user is not logged, try to get the cookie to set a session
                 String userUID = request.cookie("USER");
-                user = UsersServices.getInstance().getUser(userUID);
+                user = UsersServices.getInstance().find(userUID);
                 Session session = request.session(true);
                 session.attribute("user", user);
             }
@@ -46,5 +46,11 @@ public class Main {
 
         // Login Routes
         LoginController.getRoutes();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Shutting down...");
+        super.finalize();
     }
 }
