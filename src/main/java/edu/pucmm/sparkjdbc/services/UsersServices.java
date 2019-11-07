@@ -2,10 +2,9 @@ package edu.pucmm.sparkjdbc.services;
 
 import edu.pucmm.sparkjdbc.encapsulation.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 public class UsersServices extends DatabaseManagement<User> {
     private static UsersServices instance;
@@ -22,41 +21,11 @@ public class UsersServices extends DatabaseManagement<User> {
     }
 
     public User validateCredentials(String username, String password) {
-        User user = null;
-
-        Connection con = null;
-
-        try {
-            String query = "select *from users where username = ? and password = ?";
-            con = DataBaseServices.getInstance().getConnection();
-
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-
-            while (rs.next()) {
-                user = new User();
-                user.setUid(rs.getString("uid"));
-                user.setUsername(rs.getString("username"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setRole(rs.getString("role"));
-            }
-
-
-        } catch (SQLException ex) {
-
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException ex) {
-
-            }
-        }
-        return user;
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select u from User u where u.username = :username and u.password = :password");
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        List<User> list = query.getResultList();
+        return list.get(0);
     }
 }
