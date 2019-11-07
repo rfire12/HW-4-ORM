@@ -40,7 +40,7 @@
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
                 <ul class="pagination">
-                    <#list 1..pages as page_number>
+                    <#list 1 ..<pages as page_number>
                         <li class="page-item"><a class="page-link" href="/?page=${page_number}">${page_number}</a></li>
                     </#list>
                 </ul>

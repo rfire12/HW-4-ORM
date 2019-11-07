@@ -10,6 +10,7 @@ import edu.pucmm.sparkjdbc.services.DatabaseManagement;
 import edu.pucmm.sparkjdbc.services.TagsServices;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -33,13 +34,17 @@ public class ArticlesController {
 
 
         get("/", (request, response) -> {
+
+            int pageNumber = (request.queryParams("page") != null) ? Integer.parseInt(request.queryParams("page")) : 1;
+            int articles = ArticlesServices.getInstance().findAll().size(); //Total number of articles on the DB (this implementantation should be changed)
+            List<Article> articleList = ArticlesServices.getInstance().lazyFind(pageNumber);
+            int totalPages = (int)(Math.ceil((double)articles/5)) + 1;
             Map<String, Object> obj = new HashMap<>();
-            obj.put("articles", ArticlesServices.getInstance().findAll());
+            obj.put("articles", articleList);
             obj.put("tags", TagsServices.getInstance().findAll());
             obj.put("user", request.session().attribute("user"));
-            obj.put("pages", 10);
-            List<Article> articlesList = ArticlesServices.getInstance().lazyFind();
-            System.out.println(articlesList.size());
+            obj.put("pages", totalPages);
+
             return TemplatesController.renderFreemarker(obj, "index.ftl");
         });
 

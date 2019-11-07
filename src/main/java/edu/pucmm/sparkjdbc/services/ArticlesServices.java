@@ -22,11 +22,10 @@ public class ArticlesServices extends DatabaseManagement<Article> {
         return instance;
     }
 
-    public List<Article> lazyFind() {
+    public List<Article> lazyFind(int pageNumber) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("select a from Article a");
-        int pageNumber = 1;
-        int pageSize = 10;
+        Query query = em.createQuery("select a from Article a order by date DESC", Article.class);
+        int pageSize = 5;
         query.setFirstResult((pageNumber-1) * pageSize);
         query.setMaxResults(pageSize);
         List<Article> articlesList = query.getResultList();
