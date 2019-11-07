@@ -34,7 +34,7 @@ public class ArticlesController {
         get("/", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             obj.put("articles", ArticlesServices.getInstance().findAll());
-            obj.put("tags", TagsServices.getInstance().getTags());
+            obj.put("tags", TagsServices.getInstance().findAll());
             obj.put("user", request.session().attribute("user"));
             return TemplatesController.renderFreemarker(obj, "index.ftl");
         });
@@ -62,7 +62,7 @@ public class ArticlesController {
         get("/articles/:id", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             Article article = ArticlesServices.getInstance().find(request.params("id"));
-            ArrayList<Comment> comments = CommentsServices.getInstance().getComments(request.params("id"));
+            List<Comment> comments = CommentsServices.getInstance().findAllByArticleUid(request.params("id"));
             obj.put("article", article);
             obj.put("comments", comments);
             obj.put("tags", article.getTags());
@@ -87,7 +87,7 @@ public class ArticlesController {
         get("/articles/:id/edit", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             Article article = ArticlesServices.getInstance().find(request.params("id"));
-//            ArrayList<Tag> tags = article.getTags();
+//          ArrayList<Tag> tags = article.getTags();
             String tagsTxt = "";
 //            for (Tag tag : tags) {
 //                tagsTxt += tag.getTag() + ",";

@@ -2,13 +2,17 @@ package edu.pucmm.sparkjdbc.encapsulation;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Tag implements Serializable {
     @Id
     private String uid;
     private String tag;
+    @ManyToMany
+    private Set<Article> article;
 
     public Tag() {
 
