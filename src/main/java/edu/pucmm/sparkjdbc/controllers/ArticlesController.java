@@ -51,10 +51,9 @@ public class ArticlesController {
 
             User user = request.session().attribute("user");
             String[] tags = request.queryParams("tags").split(",");
-
-//            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
-//            Article article = new Article(request.queryParams("title"), request.queryParams("article-body"), user, date, tagList);
-//            ArticlesServices.getInstance().create(article);
+            Set<Tag> tagList = Utils.arrayToTagsSet(tags);
+            Article article = new Article(UUID.randomUUID().toString(), request.queryParams("title"), request.queryParams("article-body"), user, date, tagList);
+            ArticlesServices.getInstance().create(article);
             response.redirect("/");
             return "";
         });
@@ -76,8 +75,8 @@ public class ArticlesController {
             article.setInformation(request.queryParams("article-body"));
 
             String[] tags = request.queryParams("tags").split(",");
-            ArrayList<Tag> tagList = Utils.arrayToTagList(tags);
-//            article.setTags(tagList);
+            Set<Tag> tagList = Utils.arrayToTagsSet(tags);
+            article.setTags(tagList);
 
             ArticlesServices.getInstance().update(article);
             response.redirect("/articles/" + request.params("id"));
@@ -87,11 +86,11 @@ public class ArticlesController {
         get("/articles/:id/edit", (request, response) -> {
             Map<String, Object> obj = new HashMap<>();
             Article article = ArticlesServices.getInstance().find(request.params("id"));
-//          ArrayList<Tag> tags = article.getTags();
+            Set<Tag> tags = article.getTags();
             String tagsTxt = "";
-//            for (Tag tag : tags) {
-//                tagsTxt += tag.getTag() + ",";
-//            }
+            for (Tag tag : tags) {
+                tagsTxt += tag.getTag() + ",";
+            }
             if (tagsTxt.endsWith(",")) {
                 tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }
@@ -101,7 +100,9 @@ public class ArticlesController {
             return TemplatesController.renderFreemarker(obj, "edit-article.ftl");
         });
 
-        before("/articles/:id/delete", (request, response) -> {
+        before("/articles/:id/delete", (request, response) ->
+
+        {
             User user = request.session().attribute("user");
             System.out.println(user);
             if (user == null) {
@@ -109,7 +110,9 @@ public class ArticlesController {
             }
         });
 
-        post("/articles/:id/delete", (request, response) -> {
+        post("/articles/:id/delete", (request, response) ->
+
+        {
             ArticlesServices.getInstance().delete(request.params("id"));
             System.out.println("ds");
             response.redirect("/");

@@ -26,6 +26,9 @@ public class UsersServices extends DatabaseManagement<User> {
         query.setParameter("username", username);
         query.setParameter("password", password);
         List<User> list = query.getResultList();
-        return list.get(0);
+        if (list.size() > 0)
+            return list.get(0);
+        else
+            return null;
     }
 }

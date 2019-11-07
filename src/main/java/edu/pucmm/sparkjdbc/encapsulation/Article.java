@@ -23,7 +23,8 @@ public class Article implements Serializable {
     public Article() {
     }
 
-    public Article(String title, String information, User author, Timestamp date, Set<Tag> tags) {
+    public Article(String uid, String title, String information, User author, Timestamp date, Set<Tag> tags) {
+        this.uid = uid;
         this.title = title;
         this.information = information;
         this.author = author;
