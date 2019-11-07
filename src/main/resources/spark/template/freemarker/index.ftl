@@ -39,12 +39,11 @@
 
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
-                <li class="page-item">
-                    <a class="page-link" href="#">&larr; Older</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Newer &rarr;</a>
-                </li>
+                <ul class="pagination">
+                    <#list 1..pages as page_number>
+                        <li class="page-item"><a class="page-link" href="/?page=${page_number}">${page_number}</a></li>
+                    </#list>
+                </ul>
             </ul>
 
         </div>

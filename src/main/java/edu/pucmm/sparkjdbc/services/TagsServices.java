@@ -1,6 +1,11 @@
 package edu.pucmm.sparkjdbc.services;
 
 import edu.pucmm.sparkjdbc.encapsulation.Tag;
+import edu.pucmm.sparkjdbc.encapsulation.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

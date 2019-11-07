@@ -6,6 +6,7 @@ import edu.pucmm.sparkjdbc.encapsulation.Tag;
 import edu.pucmm.sparkjdbc.encapsulation.User;
 import edu.pucmm.sparkjdbc.services.ArticlesServices;
 import edu.pucmm.sparkjdbc.services.CommentsServices;
+import edu.pucmm.sparkjdbc.services.DatabaseManagement;
 import edu.pucmm.sparkjdbc.services.TagsServices;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
@@ -36,6 +37,9 @@ public class ArticlesController {
             obj.put("articles", ArticlesServices.getInstance().findAll());
             obj.put("tags", TagsServices.getInstance().findAll());
             obj.put("user", request.session().attribute("user"));
+            obj.put("pages", 10);
+            List<Article> articlesList = ArticlesServices.getInstance().lazyFind();
+            System.out.println(articlesList.size());
             return TemplatesController.renderFreemarker(obj, "index.ftl");
         });
 

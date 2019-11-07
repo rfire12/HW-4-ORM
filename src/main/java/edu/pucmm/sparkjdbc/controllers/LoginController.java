@@ -37,6 +37,7 @@ public class LoginController {
             request.queryParams("username");
             User user = UsersServices.getInstance().validateCredentials(request.queryParams("username"), request.queryParams("password"));
             Boolean rememberMe = false;
+
             if (request.queryParams("remember-me") != null) {
                 rememberMe = true;
             }
