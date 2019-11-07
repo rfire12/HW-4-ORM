@@ -14,22 +14,21 @@ public class CommentsController {
     public static void getRoutes() {
         before("/comments/*", (request, response) -> {
             User user = request.session().attribute("user");
-            if(user == null){
+            if (user == null) {
                 response.redirect("/");
             }
         });
 
         post("/comments/new/:article_id", (request, response) -> {
-            Comment comment = new Comment();
-            comment.setComment(request.queryParams("comment"));
-            User user = request.session().attribute("user");   
-            CommentsServices.getInstance().createComment(request.params("article_id"), user.getUid(), comment);
+            User user = request.session().attribute("user");
+            Comment comment = new Comment(ArticlesServices.getInstance().find(request.params("article-id")), request.queryParams("comment"), UsersServices.getInstance().find(user.getUid()));
+            CommentsServices.getInstance().create(comment);
             response.redirect("/articles/" + request.params("article_id"));
             return "";
         });
 
         post("/articles/:article_id/comments/:comment_id", (request, response) -> {
-            CommentsServices.getInstance().deleteComment(request.params("comment_id"));
+            CommentsServices.getInstance().delete(request.params("comment_id"));
             response.redirect("/articles/" + request.params("article_id"));
             return "";
         });

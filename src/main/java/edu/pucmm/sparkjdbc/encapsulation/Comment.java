@@ -19,7 +19,8 @@ public class Comment {
 
     }
 
-    public Comment(String comment, User author) {
+    public Comment(Article article, String comment, User author) {
+        this.article = article;
         this.comment = comment;
         this.author = author;
     }
