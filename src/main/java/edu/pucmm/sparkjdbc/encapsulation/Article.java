@@ -17,8 +17,27 @@ public class Article implements Serializable {
     private Timestamp date;
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
     private Set<Comment> comments;
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
     @ManyToMany
     private Set<Tag> tags;
+    private int likes;
+    private int dislikes;
 
     public Article() {
     }

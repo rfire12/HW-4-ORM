@@ -23,10 +23,10 @@
                     <p>Published by: ${article.author.username} on ${article.date}</p>
 
                     <br/><br/>
-                    <h3>Tags:</h3>
+                    <#--<h3>Tags:</h3>
                     <#list tags as tag>
                         <a href="#" class="badge badge-primary">${tag.tag}</a>
-                    </#list>
+                    </#list>-->
                     <br/><br/><br/>
                     <#if user??>
                         <form action="/comments/new/${article.uid}" method="post">
@@ -65,6 +65,22 @@
                         <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit this article</a>
                         <form action="/articles/${article.uid}/delete" method="post">
                             <button type="submit" class="btn btn-danger">Delete this article</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card my-4">
+                    <h5 class="card-header">Valoraciones</h5>
+                    <div class="card-body">
+                        <form action="/articles/${article.uid}/like" method="post">
+                            <button class="like" name="like" type="submit">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                        <form action="/articles/${article.uid}/dislike" method="post">
+                            <button class="dislike" name="dislike" type="submit">
+                                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                            </button>
                         </form>
                     </div>
                 </div>

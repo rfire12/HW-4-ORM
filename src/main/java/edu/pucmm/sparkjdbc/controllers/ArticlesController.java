@@ -73,7 +73,7 @@ public class ArticlesController {
             List<Comment> comments = CommentsServices.getInstance().findAllByArticleUid(request.params("id"));
             obj.put("article", article);
             obj.put("comments", comments);
-            obj.put("tags", article.getTags());
+            //obj.put("tags", article.getTags());
             obj.put("user", request.session().attribute("user"));
             return TemplatesController.renderFreemarker(obj, "show-article.ftl");
         });
@@ -110,7 +110,6 @@ public class ArticlesController {
         });
 
         before("/articles/:id/delete", (request, response) ->
-
         {
             User user = request.session().attribute("user");
             System.out.println(user);
@@ -120,11 +119,20 @@ public class ArticlesController {
         });
 
         post("/articles/:id/delete", (request, response) ->
-
         {
             ArticlesServices.getInstance().delete(request.params("id"));
             System.out.println("ds");
             response.redirect("/");
+            return "";
+        });
+
+        post("/articles/:id/like", (request, response) -> {
+            //ArticlesServices.getInstance().like();
+            return "";
+        });
+
+        post("/articles/:id/dislike", (request, response) -> {
+            //ArticlesServices.getInstance().dislike();
             return "";
         });
     }
