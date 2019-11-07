@@ -2,7 +2,9 @@ package edu.pucmm.sparkjdbc.encapsulation;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -12,6 +14,10 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String role;
+    @OneToMany
+    private Set<Article> articles;
+    @OneToMany
+    private Set<Comment> comments;
 
     public User() {
 
