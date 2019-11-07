@@ -12,29 +12,12 @@ public class Article implements Serializable {
     private String uid;
     private String title;
     private String information;
-    @OneToOne
+    @ManyToOne
     private User author;
     private Timestamp date;
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
     private Set<Comment> comments;
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
-    }
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Tag> tags;
     private int likes;
     private int dislikes;
@@ -97,5 +80,21 @@ public class Article implements Serializable {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
     }
 }

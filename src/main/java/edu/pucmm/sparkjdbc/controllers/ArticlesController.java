@@ -37,10 +37,10 @@ public class ArticlesController {
 
             int pageNumber = (request.queryParams("page") != null) ? Integer.parseInt(request.queryParams("page")) : 1;
             int articles = ArticlesServices.getInstance().findAll().size(); //Total number of articles on the DB (this implementantation should be changed)
-            List<Article> articleList = ArticlesServices.getInstance().lazyFind(pageNumber);
-            int totalPages = (int)(Math.ceil((double)articles/5)) + 1;
+            List<Article> articlesList = ArticlesServices.getInstance().lazyFind(pageNumber);
+            int totalPages = (int) (Math.ceil((double) articles / 5)) + 1;
             Map<String, Object> obj = new HashMap<>();
-            obj.put("articles", articleList);
+            obj.put("articles", articlesList);
             obj.put("tags", TagsServices.getInstance().findAll());
             obj.put("user", request.session().attribute("user"));
             obj.put("pages", totalPages);
@@ -73,7 +73,7 @@ public class ArticlesController {
             List<Comment> comments = CommentsServices.getInstance().findAllByArticleUid(request.params("id"));
             obj.put("article", article);
             obj.put("comments", comments);
-            //obj.put("tags", article.getTags());
+            obj.put("tags", article.getTags());
             obj.put("user", request.session().attribute("user"));
             return TemplatesController.renderFreemarker(obj, "show-article.ftl");
         });
@@ -97,9 +97,8 @@ public class ArticlesController {
             Article article = ArticlesServices.getInstance().find(request.params("id"));
             Set<Tag> tags = article.getTags();
             String tagsTxt = "";
-            for (Tag tag : tags) {
-                tagsTxt += tag.getTag() + ",";
-            }
+            while (tags.iterator().hasNext())
+                tagsTxt += tags.iterator().next().getTag() + ",";
             if (tagsTxt.endsWith(",")) {
                 tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }

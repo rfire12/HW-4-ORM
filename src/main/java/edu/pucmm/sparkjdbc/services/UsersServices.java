@@ -31,4 +31,18 @@ public class UsersServices extends DatabaseManagement<User> {
         else
             return null;
     }
+
+    public User findByObject(User user) {
+        if (user != null) {
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery("select u from User u where u.uid = :uid");
+            query.setParameter("uid", user.getUid());
+            List<User> list = query.getResultList();
+            if (list.size() > 0)
+                return list.get(0);
+            else
+                return null;
+        } else
+            return null;
+    }
 }

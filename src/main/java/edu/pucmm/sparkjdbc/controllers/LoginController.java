@@ -14,14 +14,14 @@ public class LoginController {
     public static void getRoutes() {
 
         before("/login", (request, response) -> {
-            User user = request.session().attribute("user");
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
             if (user != null) {
                 response.redirect("/");
             }
         });
 
         before("/create-user", (request, response) -> {
-            User user = request.session().attribute("user");
+            User user = UsersServices.getInstance().findByObject(((User)request.session().attribute("user")));
 
             if (user == null || !user.getRole().equalsIgnoreCase("admin")) {
                 response.redirect("/");

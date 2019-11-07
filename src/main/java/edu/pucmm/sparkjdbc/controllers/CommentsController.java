@@ -20,8 +20,10 @@ public class CommentsController {
         });
 
         post("/comments/new/:article_id", (request, response) -> {
-            User user = request.session().attribute("user");
-            Comment comment = new Comment(ArticlesServices.getInstance().find(request.params("article-id")), request.queryParams("comment"), UsersServices.getInstance().find(user.getUid()));
+            User user = UsersServices.getInstance().findByObject(request.session().attribute("user"));
+            Article article = ArticlesServices.getInstance().find(request.params("article-id"));
+            System.out.println("Article:" + article.getUid());
+            Comment comment = new Comment(article, request.queryParams("comment"), user);
             CommentsServices.getInstance().create(comment);
             response.redirect("/articles/" + request.params("article_id"));
             return "";
