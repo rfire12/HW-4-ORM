@@ -8,6 +8,8 @@ import edu.pucmm.sparkjdbc.services.CommentsServices;
 import edu.pucmm.sparkjdbc.services.UsersServices;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
+import java.util.UUID;
+
 import static spark.Spark.*;
 
 public class CommentsController {
@@ -21,9 +23,9 @@ public class CommentsController {
 
         post("/comments/new/:article_id", (request, response) -> {
             User user = UsersServices.getInstance().findByObject(request.session().attribute("user"));
-            Article article = ArticlesServices.getInstance().find(request.params("article-id"));
+            Article article = ArticlesServices.getInstance().find(request.params("article_id"));
             System.out.println("Article:" + article.getUid());
-            Comment comment = new Comment(article, request.queryParams("comment"), user);
+            Comment comment = new Comment(UUID.randomUUID().toString(), article, request.queryParams("comment"), user);
             CommentsServices.getInstance().create(comment);
             response.redirect("/articles/" + request.params("article_id"));
             return "";

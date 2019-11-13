@@ -26,6 +26,6 @@ dependencies {
     // Base de Datos
     compile 'com.h2database:h2:1.4.191'
     //Librerias de Hibernate
-    compile 'org.hibernate:hibernate-core:4.3.11.Final'
-    compile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
+    compile 'org.hibernate:hibernate-core:5.4.1.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.4.1.Final'
 }

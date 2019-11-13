@@ -3,13 +3,14 @@ package edu.pucmm.sparkjdbc.encapsulation;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Comment {
     @Id
     private String uid;
     private String comment;
-    @ManyToOne
+    @OneToOne
     private User author;
     @ManyToOne
     private Article article;
@@ -18,7 +19,8 @@ public class Comment {
 
     }
 
-    public Comment(Article article, String comment, User author) {
+    public Comment(String uid, Article article, String comment, User author) {
+        this.uid = uid;
         this.article = article;
         this.comment = comment;
         this.author = author;
