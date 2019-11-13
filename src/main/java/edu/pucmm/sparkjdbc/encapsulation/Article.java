@@ -3,7 +3,6 @@ package edu.pucmm.sparkjdbc.encapsulation;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -19,8 +18,8 @@ public class Article implements Serializable {
     private Set<Comment> comments;
     @ManyToMany(mappedBy = "articles", fetch = FetchType.EAGER)
     private Set<Tag> tags;
-    private int likes;
-    private int dislikes;
+    @OneToMany
+    private Set<Recommendation> recommentadations;
 
     public Article() {
     }
@@ -82,19 +81,4 @@ public class Article implements Serializable {
         this.tags = tags;
     }
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
-    }
 }
