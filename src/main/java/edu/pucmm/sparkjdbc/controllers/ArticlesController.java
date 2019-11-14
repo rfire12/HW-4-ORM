@@ -68,12 +68,15 @@ public class ArticlesController {
             User user = request.session().attribute("user");
             Recommendation recommendation = RecommendationServices.getInstance().find(new RecommendationId(article, user));
             Boolean userRecomendation = recommendation != null ? recommendation.getLike() : null;
-            System.out.println(String.valueOf(userRecomendation));
+            int likesTotal = RecommendationServices.getInstance().numberOfRecommendations(article, true);
+            int dislikesTotal = RecommendationServices.getInstance().numberOfRecommendations(article, false);
             obj.put("article", article);
             obj.put("comments", comments);
             obj.put("tags", article.getTags());
             obj.put("user", request.session().attribute("user"));
             obj.put("like", String.valueOf(userRecomendation));
+            obj.put("likesTotal", likesTotal);
+            obj.put("dislikesTotal", dislikesTotal);
             return TemplatesController.renderFreemarker(obj, "show-article.ftl");
         });
 
@@ -127,7 +130,6 @@ public class ArticlesController {
             Article article = ArticlesServices.getInstance().find(request.params("id"));
             User user = request.session().attribute("user");
             Utils.likeDislike(true, article, user);
-
             response.redirect("/articles/" + request.params("id"));
             return "";
         });

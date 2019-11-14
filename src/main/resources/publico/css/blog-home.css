@@ -63,3 +63,9 @@ button.learnmore{
     display: inline;
     margin-right: 5px;
 }
+
+.likes-total{
+  display: block;
+  font-family: initial;
+  margin: 10px 0px;
+}
