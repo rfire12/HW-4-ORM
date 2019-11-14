@@ -1,7 +1,7 @@
 package edu.pucmm.sparkjdbc.utils;
 
-import edu.pucmm.sparkjdbc.encapsulation.Tag;
-import edu.pucmm.sparkjdbc.encapsulation.User;
+import edu.pucmm.sparkjdbc.encapsulation.*;
+import edu.pucmm.sparkjdbc.services.RecommendationServices;
 import edu.pucmm.sparkjdbc.services.TagsServices;
 
 import java.util.ArrayList;
@@ -36,5 +36,21 @@ public final class Utils {
             return value;
         }
     }
+
+    public static void likeDislike(Boolean likeDislike, Article article, User user){
+        Recommendation recommendation = RecommendationServices.getInstance().find(new RecommendationId(article, user));
+
+        RecommendationId recommendationId = new RecommendationId(article, user);
+        if(recommendation == null){
+            recommendation = new Recommendation(recommendationId, likeDislike);
+            RecommendationServices.getInstance().create(recommendation);
+        }else if(recommendation.getLike() == !likeDislike){
+            recommendation = new Recommendation(recommendationId, likeDislike);
+            RecommendationServices.getInstance().update(recommendation);
+        }else{
+            RecommendationServices.getInstance().delete(recommendationId);
+        }
+    }
+
 
 }

@@ -9,6 +9,7 @@
         <class>edu.pucmm.sparkjdbc.encapsulation.Article</class>
         <class>edu.pucmm.sparkjdbc.encapsulation.Comment</class>
         <class>edu.pucmm.sparkjdbc.encapsulation.Tag</class>
+        <class>edu.pucmm.sparkjdbc.encapsulation.Recommendation</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/sparkjavaorm"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
