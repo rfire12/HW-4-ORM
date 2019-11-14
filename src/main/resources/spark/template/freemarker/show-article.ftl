@@ -23,14 +23,14 @@
                     <p>Published by: ${article.author.username} on ${article.date}</p>
 
                     <br/><br/>
-                    <#--<h3>Tags:</h3>
+                    <h3>Tags:</h3>
                     <#list tags as tag>
                         <a href="#" class="badge badge-primary">${tag.tag}</a>
-                    </#list>-->
+                    </#list>
                     <br/><br/><br/>
                     <#if user??>
                         <form action="/comments/new/${article.uid}" method="post">
-                            <textarea placeholder="Comment here" class="form-control" name="comment"></textarea>
+                            <textarea placeholder="Comment here" class="form-control" name="comment" required></textarea>
                             <br/>
                             <button type="submit" class="btn btn-primary">Post</button>
                         </form>
@@ -59,16 +59,16 @@
         <div class="col-md-3">
             <#if user?? && (user.role == "admin" || user.uid = article.author.uid)>
 
-                    <!-- Search Widget -->
-                    <div class="card my-4">
-                        <h5 class="card-header">Settings</h5>
-                        <div class="card-body">
-                            <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit this article</a>
-                            <form action="/articles/${article.uid}/delete" method="post">
-                                <button type="submit" class="btn btn-danger">Delete this article</button>
-                            </form>
-                        </div>
+                <!-- Search Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Settings</h5>
+                    <div class="card-body">
+                        <a href="/articles/${article.uid}/edit" class="btn btn-dark">Edit this article</a>
+                        <form action="/articles/${article.uid}/delete" method="post">
+                            <button type="submit" class="btn btn-danger">Delete this article</button>
+                        </form>
                     </div>
+                </div>
             </#if>
 
             <#if user??>

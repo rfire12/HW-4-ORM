@@ -11,18 +11,20 @@ import java.util.UUID;
 
 public final class Utils {
     public static Set<Tag> arrayToTagsSet(String[] tags) {
-        Set<Tag> tagList = new HashSet<Tag>();
+        Set<Tag> tagList = new HashSet<>();
         Tag newTag;
         String uniqueID;
         for (String tag : tags) {
-            Tag myTag = TagsServices.getInstance().findByName(tag);
-            if (myTag != null) {
-                tagList.add(myTag);
-            } else {
-                uniqueID = UUID.randomUUID().toString();
-                newTag = new Tag(uniqueID, tag);
-                TagsServices.getInstance().create(newTag);
-                tagList.add(newTag);
+            if (!tag.equalsIgnoreCase("")) {
+                Tag myTag = TagsServices.getInstance().findByName(tag);
+                if (myTag != null) {
+                    tagList.add(myTag);
+                } else {
+                    uniqueID = UUID.randomUUID().toString();
+                    newTag = new Tag(uniqueID, tag);
+                    TagsServices.getInstance().create(newTag);
+                    tagList.add(newTag);
+                }
             }
         }
         return tagList;
@@ -37,17 +39,17 @@ public final class Utils {
         }
     }
 
-    public static void likeDislike(Boolean likeDislike, Article article, User user){
+    public static void likeDislike(Boolean likeDislike, Article article, User user) {
         Recommendation recommendation = RecommendationServices.getInstance().find(new RecommendationId(article, user));
 
         RecommendationId recommendationId = new RecommendationId(article, user);
-        if(recommendation == null){
+        if (recommendation == null) {
             recommendation = new Recommendation(recommendationId, likeDislike);
             RecommendationServices.getInstance().create(recommendation);
-        }else if(recommendation.getLike() == !likeDislike){
+        } else if (recommendation.getLike() == !likeDislike) {
             recommendation = new Recommendation(recommendationId, likeDislike);
             RecommendationServices.getInstance().update(recommendation);
-        }else{
+        } else {
             RecommendationServices.getInstance().delete(recommendationId);
         }
     }

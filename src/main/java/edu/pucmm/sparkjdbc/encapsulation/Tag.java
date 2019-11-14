@@ -9,7 +9,7 @@ public class Tag implements Serializable {
     @Id
     private String uid;
     private String tag;
-    @ManyToMany()
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     private Set<Article> articles;
 
     public Tag() {
@@ -19,6 +19,20 @@ public class Tag implements Serializable {
     public Tag(String uid, String tag) {
         this.uid = uid;
         this.tag = tag;
+    }
+
+    public void remove(Article article) {
+        article.getTags().remove(tag);
+        this.getArticles().remove(article);
+    }
+
+    public boolean hasArticles() {
+        boolean hasArticles = false;
+
+        if (getArticles().size() > 0)
+            hasArticles = true;
+
+        return hasArticles;
     }
 
     public String getUid() {

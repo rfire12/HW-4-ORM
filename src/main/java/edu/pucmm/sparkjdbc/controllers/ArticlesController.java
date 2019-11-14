@@ -4,7 +4,6 @@ import edu.pucmm.sparkjdbc.encapsulation.*;
 import edu.pucmm.sparkjdbc.services.*;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -85,6 +84,15 @@ public class ArticlesController {
             article.setTitle(request.queryParams("title"));
             article.setInformation(request.queryParams("article-body"));
 
+            for (Tag tag : article.getTags()) {
+                tag.remove(article);
+            }
+
+            for (Tag tag : TagsServices.getInstance().findAll()) {
+                if (!tag.hasArticles())
+                    TagsServices.getInstance().delete(tag.getUid());
+            }
+
             String[] tags = request.queryParams("tags").split(",");
             Set<Tag> tagList = Utils.arrayToTagsSet(tags);
             article.setTags(tagList);
@@ -99,8 +107,8 @@ public class ArticlesController {
             Article article = ArticlesServices.getInstance().find(request.params("id"));
             Set<Tag> tags = article.getTags();
             String tagsTxt = "";
-//            while (tags.iterator().hasNext())
-//                tagsTxt += tags.iterator().next().getTag() + ",";
+            for (Tag tag : tags)
+                tagsTxt += tag.getTag() + ",";
             if (tagsTxt.endsWith(",")) {
                 tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }

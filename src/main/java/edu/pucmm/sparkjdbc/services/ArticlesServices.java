@@ -1,6 +1,7 @@
 package edu.pucmm.sparkjdbc.services;
 
 import edu.pucmm.sparkjdbc.encapsulation.Article;
+import edu.pucmm.sparkjdbc.encapsulation.Tag;
 import edu.pucmm.sparkjdbc.encapsulation.User;
 
 import javax.persistence.EntityManager;
@@ -26,13 +27,9 @@ public class ArticlesServices extends DatabaseManagement<Article> {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("select a from Article a order by date DESC", Article.class);
         int pageSize = 5;
-        query.setFirstResult((pageNumber-1) * pageSize);
+        query.setFirstResult((pageNumber - 1) * pageSize);
         query.setMaxResults(pageSize);
         List<Article> articlesList = query.getResultList();
         return articlesList;
     }
-
-
-
-
 }
