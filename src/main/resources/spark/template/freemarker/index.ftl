@@ -73,7 +73,7 @@
                             <ul class="list-unstyled mb-0">
                                 <#list tags as tag>
                                     <li>
-                                        <a href="#">${tag.tag}</a>
+                                        <a href="/articles/tag/${tag.uid}">${tag.tag}</a>
                                     </li>
                                 </#list>
                             </ul>

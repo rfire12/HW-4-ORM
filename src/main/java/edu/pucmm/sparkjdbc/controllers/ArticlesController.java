@@ -153,5 +153,13 @@ public class ArticlesController {
             response.redirect("/articles/" + request.params("id"));
             return "";
         });
+
+        get("/articles/tag/:id", (request, response) -> {
+            Tag tag = TagsServices.getInstance().find(request.params("id"));
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("articles", tag.getArticles());
+            obj.put("tag", tag);
+            return TemplatesController.renderFreemarker(obj, "show-tag-articles.ftl");
+        });
     }
 }
