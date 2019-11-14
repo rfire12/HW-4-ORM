@@ -16,7 +16,7 @@ public class Article implements Serializable {
     private Timestamp date;
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
     private Set<Comment> comments;
-    @ManyToMany
+    @OneToMany
     private Set<Tag> tags;
     @OneToMany(mappedBy = "recommendationId.article", fetch = FetchType.EAGER)
     private Set<Recommendation> recommendations;

@@ -2,8 +2,6 @@ package edu.pucmm.sparkjdbc.services;
 
 import edu.pucmm.sparkjdbc.encapsulation.Article;
 import edu.pucmm.sparkjdbc.encapsulation.Recommendation;
-import edu.pucmm.sparkjdbc.encapsulation.Tag;
-import jdk.management.jfr.RecordingInfo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

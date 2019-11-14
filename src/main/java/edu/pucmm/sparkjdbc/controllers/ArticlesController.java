@@ -99,8 +99,8 @@ public class ArticlesController {
             Article article = ArticlesServices.getInstance().find(request.params("id"));
             Set<Tag> tags = article.getTags();
             String tagsTxt = "";
-            while (tags.iterator().hasNext())
-                tagsTxt += tags.iterator().next().getTag() + ",";
+//            while (tags.iterator().hasNext())
+//                tagsTxt += tags.iterator().next().getTag() + ",";
             if (tagsTxt.endsWith(",")) {
                 tagsTxt = tagsTxt.substring(0, tagsTxt.length() - 1);
             }
