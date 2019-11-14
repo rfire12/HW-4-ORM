@@ -22,4 +22,5 @@ public class RecommendationServices extends DatabaseManagement<Recommendation> {
         }
         return instance;
     }
+
 }

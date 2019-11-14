@@ -1,13 +1,7 @@
 package edu.pucmm.sparkjdbc.controllers;
 
-import edu.pucmm.sparkjdbc.encapsulation.Article;
-import edu.pucmm.sparkjdbc.encapsulation.Comment;
-import edu.pucmm.sparkjdbc.encapsulation.Tag;
-import edu.pucmm.sparkjdbc.encapsulation.User;
-import edu.pucmm.sparkjdbc.services.ArticlesServices;
-import edu.pucmm.sparkjdbc.services.CommentsServices;
-import edu.pucmm.sparkjdbc.services.DatabaseManagement;
-import edu.pucmm.sparkjdbc.services.TagsServices;
+import edu.pucmm.sparkjdbc.encapsulation.*;
+import edu.pucmm.sparkjdbc.services.*;
 import edu.pucmm.sparkjdbc.utils.Utils;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -71,10 +65,15 @@ public class ArticlesController {
             Map<String, Object> obj = new HashMap<>();
             Article article = ArticlesServices.getInstance().find(request.params("id"));
             List<Comment> comments = CommentsServices.getInstance().findAllByArticleUid(request.params("id"));
+            User user = request.session().attribute("user");
+            Recommendation recommendation = RecommendationServices.getInstance().find(new RecommendationId(article, user));
+            Boolean userRecomendation = recommendation != null ? recommendation.getLike() : null;
+            System.out.println(String.valueOf(userRecomendation));
             obj.put("article", article);
             obj.put("comments", comments);
             obj.put("tags", article.getTags());
             obj.put("user", request.session().attribute("user"));
+            obj.put("like", String.valueOf(userRecomendation));
             return TemplatesController.renderFreemarker(obj, "show-article.ftl");
         });
 
@@ -120,18 +119,28 @@ public class ArticlesController {
         post("/articles/:id/delete", (request, response) ->
         {
             ArticlesServices.getInstance().delete(request.params("id"));
-            System.out.println("ds");
             response.redirect("/");
             return "";
         });
 
         post("/articles/:id/like", (request, response) -> {
-            //ArticlesServices.getInstance().like();
+            Article article = ArticlesServices.getInstance().find(request.params("id"));
+            User user = request.session().attribute("user");
+            Utils.likeDislike(true, article, user);
+
+            response.redirect("/articles/" + request.params("id"));
             return "";
         });
 
         post("/articles/:id/dislike", (request, response) -> {
-            //ArticlesServices.getInstance().dislike();
+            Article article = ArticlesServices.getInstance().find(request.params("id"));
+            User user = request.session().attribute("user");
+            Recommendation recommendation = RecommendationServices.getInstance().find(new RecommendationId(article, user));
+            RecommendationId recommendationId = new RecommendationId(article, user);
+
+            Utils.likeDislike(false, article, user);
+
+            response.redirect("/articles/" + request.params("id"));
             return "";
         });
     }

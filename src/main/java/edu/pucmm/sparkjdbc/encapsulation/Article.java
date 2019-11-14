@@ -18,8 +18,8 @@ public class Article implements Serializable {
     private Set<Comment> comments;
     @ManyToMany(mappedBy = "articles", fetch = FetchType.EAGER)
     private Set<Tag> tags;
-    @OneToMany
-    private Set<Recommendation> recommentadations;
+    @OneToMany(mappedBy = "recommendationId.article", fetch = FetchType.EAGER)
+    private Set<Recommendation> recommendations;
 
     public Article() {
     }
@@ -31,6 +31,22 @@ public class Article implements Serializable {
         this.author = author;
         this.date = date;
         this.tags = tags;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<Recommendation> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(Set<Recommendation> recommendations) {
+        this.recommendations = recommendations;
     }
 
     public String getUid() {

@@ -53,3 +53,13 @@ button.learnmore{
   color: #fff;
   letter-spacing: 1px;
 }
+
+.color-grey{
+  background-color: #e1e4e8 !important;
+  border: #e1e4e8;
+}
+
+.formRecommendations{
+    display: inline;
+    margin-right: 5px;
+}

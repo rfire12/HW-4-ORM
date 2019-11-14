@@ -72,16 +72,29 @@
                 <div class="card my-4">
                     <h5 class="card-header">Valoraciones</h5>
                     <div class="card-body">
-                        <form action="/articles/${article.uid}/like" method="post">
-                            <button class="like" name="like" type="submit">
-                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                        <form action="/articles/${article.uid}/dislike" method="post">
-                            <button class="dislike" name="dislike" type="submit">
-                                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                            </button>
-                        </form>
+                            <form action="/articles/${article.uid}/like" class="formRecommendations" method="post">
+                                <#if like == "null" || like == "false" >
+                                    <button class="like color-grey" name="like" type="submit">
+                                        <span class="fa fa-thumbs-o-up color-grey" aria-hidden="true">&#128077;</span>
+                                    </button>
+                                <#else>
+                                    <button class="like" name="like" type="submit">
+                                        <span class="fa fa-thumbs-o-up" aria-hidden="true">&#128077;</span>
+                                    </button>
+                                </#if>
+                            </form>
+                            <form action="/articles/${article.uid}/dislike" class="formRecommendations" method="post">
+                                <#if like == "null" || like == "true" >
+                                    <button class="dislike color-grey" name="dislike" type="submit">
+                                        <span class="fa fa-thumbs-o-down color-grey" aria-hidden="true">&#128078;</span>
+                                    </button>
+                                <#else>
+                                    <button class="dislike" name="dislike" type="submit">
+                                        <span class="fa fa-thumbs-o-down" aria-hidden="true">&#128078;</span>
+                                    </button>
+                                </#if>
+                            </form>
+
                     </div>
                 </div>
             </div>

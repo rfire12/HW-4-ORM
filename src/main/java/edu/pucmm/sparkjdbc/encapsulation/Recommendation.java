@@ -1,52 +1,25 @@
 package edu.pucmm.sparkjdbc.encapsulation;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Recommendation {
-    @Id
-    private String uid;
-    @ManyToOne
-    private Article article;
-    @ManyToOne
-    private User user;
+public class Recommendation implements Serializable {
+    @EmbeddedId
+    private RecommendationId recommendationId;
     private Boolean isLike;
 
-    public Recommendation(String uid, Article article, User user, Boolean isLike) {
-        this.uid = uid;
-        this.article = article;
-        this.user = user;
+    public Recommendation(RecommendationId recommendationId, Boolean isLike) {
+        this.recommendationId = recommendationId;
         this.isLike = isLike;
     }
 
-    public Recommendation() {
-
+    public RecommendationId getRecommendationId() {
+        return recommendationId;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public Article getArticle() {
-        return article;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setRecommendationId(RecommendationId recommendationId) {
+        this.recommendationId = recommendationId;
     }
 
     public Boolean getLike() {
@@ -56,4 +29,9 @@ public class Recommendation {
     public void setLike(Boolean like) {
         isLike = like;
     }
+
+    public Recommendation() {
+
+    }
+
 }
